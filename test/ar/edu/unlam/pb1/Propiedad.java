@@ -2,31 +2,22 @@ package ar.edu.unlam.pb1;
 
 import java.util.Arrays;
 
-public class Propiedad {
+public class Propiedad  {
 
-	private String ubicacion;
-	private Double precio;
-	private TiposDePropiedades tipos;
-//	private Cliente clientes[];
-	private Integer precioAlquilerXDia;
-	private Integer codigo;
-	
-	
-	public Propiedad(String ubicacion, Double precio, TiposDePropiedades tipos,
-			Integer precioAlquiler, Integer codigo) {
-		this.ubicacion = ubicacion;
+	protected String localidad;
+	protected Double precio;
+	protected Integer codigo;
+	protected String calle;
+	protected Integer numero;
+	protected Integer metrosCuadrados;
+
+	public Propiedad(String localidad, Double precio, Integer codigo, String calle, Integer numero) {
+		this.localidad = localidad;
 		this.precio = precio;
-		this.tipos = tipos;
-		this.precioAlquilerXDia = precioAlquiler;
 		this.codigo = codigo;
-	}
-
-	public String getUbicacion() {
-		return ubicacion;
-	}
-
-	public void setUbicacion(String ubicacion) {
-		this.ubicacion = ubicacion;
+		this.calle = calle;
+		this.numero = numero;
+		
 	}
 
 	public Double getPrecio() {
@@ -37,31 +28,6 @@ public class Propiedad {
 		this.precio = precio;
 	}
 
-	public TiposDePropiedades getTipos() {
-		return tipos;
-	}
-
-	public void setTipos(TiposDePropiedades tipos) {
-		this.tipos = tipos;
-	}
-
-//	public Cliente[] getInquilino() {
-//		return clientes;
-//	}
-//
-//	public void setInquilino(Cliente[] inquilino) {
-//		this.clientes = inquilino;
-//	}
-
-	public Integer getPrecioAlquilerXDia() {
-		return precioAlquilerXDia;
-	}
-
-	public void setPrecioAlquilerXDia(Integer cantidadDeDiasAlquilada) {
-		this.precioAlquilerXDia = cantidadDeDiasAlquilada;
-	}
-
-
 	public Integer getCodigo() {
 		return codigo;
 	}
@@ -70,10 +36,45 @@ public class Propiedad {
 		this.codigo = codigo;
 	}
 
+	public String getLocalidad() {
+		return localidad;
+	}
+
+	public void setLocalidad(String localidad) {
+		this.localidad = localidad;
+	}
+
+
+	public Integer getMetrosCuadrados() {
+		return metrosCuadrados;
+	}
+
+	public void setMetrosCuadrados(Integer metrosCuadrados) {
+		this.metrosCuadrados = metrosCuadrados;
+	}
+
+	public String getCalle() {
+		return calle;
+	}
+
+	public void setCalle(String calle) {
+		this.calle = calle;
+	}
+
+	public Integer getNumero() {
+		return numero;
+	}
+
+	public void setNumero(Integer numero) {
+		this.numero = numero;
+	}
+
 	@Override
 	public String toString() {
-		return "Propiedad [ubicacion=" + ubicacion + ", precio=" + precio + ", tipos=" + tipos 
-				+ ", precioAlquilerPorDia=" + precioAlquilerXDia + "]";
+		return "Propiedad [localidad=" + localidad + ", precio=" + precio + ", codigo=" + codigo + ", calle=" + calle
+				+ ", numero=" + numero + ", metrosCuadrados=" + metrosCuadrados + "]";
 	}
+
+
 
 }

@@ -2,6 +2,9 @@ package ar.edu.unlam.pb1;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import junit.framework.Assert;
 
 public class Test {
@@ -11,21 +14,28 @@ public class Test {
 	String calle = "RamonFalcon";
 	Integer numero = 144;
 	String localidad = "SanJusturro";
+	Integer codigo = 120;
 	String calle2 = "Arieta";
 	Integer numero2 = 584;
 	String localidad2 = "Moron";
+	Integer codigo2 = 2548;
 	Integer piso = 2;
 	String dpto = "A";
 	Integer piso2 = 3;
 	String dpto2 = "B";
 	Double precio = 100.000;
 	Double precio2 = 200.000;
-	Casa casa1 = new Casa(calle, numero, localidad, precio);
-	Casa casa2 = new Casa(calle2, numero2, localidad2, precio2);
-	Casa casaCopiaDeLa1 = new Casa(calle, numero, localidad, precio);
-	Departamento dpto1 = new Departamento(calle, numero, piso, dpto, localidad, precio);
-	Departamento dpto3 = new Departamento(calle2, numero2, piso2, dpto2, localidad2, precio2);
-	Departamento copiaDpto1 = new Departamento(calle, numero, piso, dpto, localidad, precio);
+//	String localidad, Double precio, Integer codigo, String direccion, 
+//	String calle, Integer numero)
+	Casa casa1 = new Casa(localidad, precio, codigo, calle, numero);
+	Casa casa2 = new Casa(localidad2, precio2, codigo2, calle2, numero2);
+	Casa casaCopiaDeLa1 = new Casa(localidad, precio, codigo, calle, numero);
+	// String localidad, Double precio, Integer codigo, String calle, Integer
+	// numero,
+	// Integer numero2, Integer piso, String departamento
+	Departamento dpto1 = new Departamento(localidad, precio, codigo, calle, numero, piso, dpto);
+	Departamento dpto3 = new Departamento(localidad2, precio2, codigo2, calle2, numero2, piso2, dpto2);
+	Departamento copiaDpto1 = new Departamento(localidad, precio, codigo, calle, numero, piso, dpto);
 
 	@org.junit.Test
 	public void queSePuedaDarDeAltaUnaCasaEnLaInmobiliaria() {
@@ -123,23 +133,33 @@ public class Test {
 		actual.agregarCasa(casa2);
 		Double precioMinimo = 80.000;
 		Double precioMaximo = 200.000;
-		Casa[] casitas = actual.buscarCasasPorRangoDePrecio(precioMinimo, precioMaximo);
+		ArrayList<Casa> casitas = actual.buscarCasasPorRangoDePrecio(precioMinimo, precioMaximo);
 		assertNotNull(casitas);
-		//La cantidad de casas que espero / La cantidad de casas que puede haber.
-		assertEquals(2, casitas.length);
+		// La cantidad de casas que espero / La cantidad de casas que puede haber.
+		assertEquals(2, casitas.size());
 	}
+
 	@org.junit.Test
 	public void queLaBusquedaPorRangoDePrecioDeCasasMeArrojeUnArrayNuloSiNoAplicanResultados() {
 		// Ejecucion
 		actual.agregarCasa(casa1);
 		actual.agregarCasa(casa2);
-		Double precioMinimo = 80.000;
+		Double precioMinimo = 60.000;
 		Double precioMaximo = 90.000;
-		Casa[] casitas = actual.buscarCasasPorRangoDePrecio(precioMinimo, precioMaximo);
-		assertNull(casitas);
-		//La cantidad de casas que espero / La cantidad de casas que puede haber.
-		//assertEquals(0, casitas.length);
-		
-		//no puedo abrir el microfono :(
+		ArrayList<Casa> casitas = actual.buscarCasasPorRangoDePrecio(precioMinimo, precioMaximo);
+
+		assertEquals(0, casitas.size());
+		// La cantidad de casas que espero / La cantidad de casas que puede haber.
+		// assertEquals(0, casitas.length);
+
 	}
+
+	@org.junit.Test
+	public void agregarUnaCasaConElMenorEspacioEnMemoriaPosibleSinLimiteEnElArray() {
+		actual.agregarCasa(casa1);
+		actual.agregarCasa(casa2);
+
+//	assertEquals(2, actual.getCasas().length);
+	}
+
 }

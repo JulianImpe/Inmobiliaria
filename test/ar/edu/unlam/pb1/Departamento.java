@@ -1,38 +1,22 @@
 package ar.edu.unlam.pb1;
 
-public class Departamento {
+public class Departamento extends Propiedad {
 
-	private String calle;
-	private Integer numero;
 	private Integer piso;
 	private String departamento;
-	private String localidad;
-	private Double precio;
-	
-	public Departamento(String calle, Integer numero, Integer piso, String departamento, String localidad, Double precio) {
-		this.calle = calle;
-		this.numero = numero;
+	private Integer ambientes;
+	private Integer dormitorios;
+	private Integer banios;
+
+
+	public Departamento(String localidad, Double precio, Integer codigo, String calle, Integer numero,
+			  Integer piso, String departamento) {
+		super(localidad, precio, codigo, calle, numero);
 		this.piso = piso;
 		this.departamento = departamento;
-		this.localidad = localidad;
-		this.precio=precio;
+		
 	}
 
-	public Double getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(Double precio) {
-		this.precio = precio;
-	}
-
-	public String getCalle() {
-		return calle;
-	}
-
-	public void setCalle(String calle) {
-		this.calle = calle;
-	}
 
 	public Integer getNumero() {
 		return numero;
@@ -66,10 +50,34 @@ public class Departamento {
 		this.localidad = localidad;
 	}
 
+	public Integer getAmbientes() {
+		return ambientes;
+	}
+
+	public void setAmbientes(Integer ambientes) {
+		this.ambientes = ambientes;
+	}
+
+	public Integer getDormitorios() {
+		return dormitorios;
+	}
+
+	public void setDormitorios(Integer dormitorios) {
+		this.dormitorios = dormitorios;
+	}
+
+	public Integer getBanios() {
+		return banios;
+	}
+
+	public void setBanios(Integer banios) {
+		this.banios = banios;
+	}
+
 	@Override
 	public String toString() {
-		return "Departamento [calle=" + calle + ", numero=" + numero + ", piso=" + piso + ", departamento="
-				+ departamento + ", localidad=" + localidad + "]";
+		return "Departamento [numero=" + numero + ", piso=" + piso + ", departamento=" + departamento + ", ambientes="
+				+ ambientes + ", dormitorios=" + dormitorios + ", banios=" + banios + "]";
 	}
 
 }

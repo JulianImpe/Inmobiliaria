@@ -6,6 +6,10 @@ public class Cliente {
 	private String nombre;
 	private Double billetera;
 
+//	No puedo tener clientes duplicados
+//	Diseñar un algoritmo, tenemos que modificarlo para cumplir 2 condiciones
+//	Array: Utilice la menor cantidad de memoria posible(No ponerle cantidad)
+//	2da: No tiene que tener limite (hardware)
 	public Cliente(Integer dni, String nombre) {
 		Dni = dni;
 		this.nombre = nombre;

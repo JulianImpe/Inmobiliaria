@@ -1,25 +1,15 @@
 package ar.edu.unlam.pb1;
 
-public class Casa {
+public class Casa extends Propiedad {
 
-	private String calle;
-	private Integer numero;
-	private String localidad;
-	private Double precio;
-	
-	public Casa(String calle, Integer numero, String localidad, Double precio) {
-		this.calle = calle;
-		this.numero = numero;
-		this.localidad = localidad;
+	private Integer ambientes;
+	private Integer dormitorios;
+	private Integer banios;
+
+
+	public Casa(String localidad, Double precio, Integer codigo, String calle, Integer numero) {
+		super(localidad, precio, codigo, calle, numero);
 		this.precio=precio;
-	}
-
-	public Double getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(Double precio) {
-		this.precio = precio;
 	}
 
 	public String getCalle() {
@@ -46,9 +36,37 @@ public class Casa {
 		this.localidad = localidad;
 	}
 
-	@Override
-	public String toString() {
-		return "Casa [calle=" + calle + ", numero=" + numero + ", localidad=" + localidad + "]";
+	public Integer getAmbientes() {
+		return ambientes;
+	}
+
+	public void setAmbientes(Integer ambientes) {
+		this.ambientes = ambientes;
+	}
+
+	public Integer getDormitorios() {
+		return dormitorios;
+	}
+
+	public void setDormitorios(Integer dormitorios) {
+		this.dormitorios = dormitorios;
+	}
+
+	public Integer getBanios() {
+		return banios;
+	}
+
+	public void setBanios(Integer banios) {
+		this.banios = banios;
 	}
 	
+	public Double getPrecio() {
+		return precio;
+	}
+	@Override
+	public String toString() {
+		return "Casa [calle=" + calle + ", numero=" + numero + ", ambientes=" + ambientes + ", dormitorios="
+				+ dormitorios + ", banios=" + banios + "]";
+	}
+
 }
