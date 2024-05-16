@@ -1,6 +1,7 @@
 package ar.edu.unlam.pb1;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Propiedad  {
 
@@ -10,14 +11,33 @@ public class Propiedad  {
 	protected String calle;
 	protected Integer numero;
 	protected Integer metrosCuadrados;
+	protected AccionesParaLasPropiedades acciones;
 
-	public Propiedad(String localidad, Double precio, Integer codigo, String calle, Integer numero) {
+	public Propiedad(String localidad, Double precio, Integer codigo, String calle, Integer numero,AccionesParaLasPropiedades acciones) {
 		this.localidad = localidad;
 		this.precio = precio;
 		this.codigo = codigo;
 		this.calle = calle;
 		this.numero = numero;
-		
+		this.acciones=acciones;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(calle, codigo, localidad, numero);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Propiedad other = (Propiedad) obj;
+		return Objects.equals(calle, other.calle) && Objects.equals(codigo, other.codigo)
+				&& Objects.equals(localidad, other.localidad) && Objects.equals(numero, other.numero);
 	}
 
 	public Double getPrecio() {

@@ -9,9 +9,9 @@ public class Departamento extends Propiedad {
 	private Integer banios;
 
 
-	public Departamento(String localidad, Double precio, Integer codigo, String calle, Integer numero,
+	public Departamento(String localidad, Double precio, Integer codigo, String calle, Integer numero,AccionesParaLasPropiedades acciones,
 			  Integer piso, String departamento) {
-		super(localidad, precio, codigo, calle, numero);
+		super(localidad, precio, codigo, calle, numero, acciones);
 		this.piso = piso;
 		this.departamento = departamento;
 		

@@ -7,8 +7,9 @@ public class Casa extends Propiedad {
 	private Integer banios;
 
 
-	public Casa(String localidad, Double precio, Integer codigo, String calle, Integer numero) {
-		super(localidad, precio, codigo, calle, numero);
+	public Casa(String localidad, Double precio, Integer codigo, String calle, 
+			Integer numero,AccionesParaLasPropiedades acciones) {
+		super(localidad, precio, codigo, calle, numero, acciones);
 		this.precio=precio;
 	}
 

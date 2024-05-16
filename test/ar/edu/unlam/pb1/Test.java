@@ -25,17 +25,17 @@ public class Test {
 	String dpto2 = "B";
 	Double precio = 100.000;
 	Double precio2 = 200.000;
-//	String localidad, Double precio, Integer codigo, String direccion, 
-//	String calle, Integer numero)
-	Casa casa1 = new Casa(localidad, precio, codigo, calle, numero);
-	Casa casa2 = new Casa(localidad2, precio2, codigo2, calle2, numero2);
-	Casa casaCopiaDeLa1 = new Casa(localidad, precio, codigo, calle, numero);
+	AccionesParaLasPropiedades venta = AccionesParaLasPropiedades.VENTA;
+	AccionesParaLasPropiedades alquiler = AccionesParaLasPropiedades.ALQUILER;
+	Casa casa1 = new Casa(localidad, precio, codigo, calle, numero, venta);
+	Casa casa2 = new Casa(localidad2, precio2, codigo2, calle2, numero2, alquiler);
+	Casa casaCopiaDeLa1 = new Casa(localidad, precio, codigo, calle, numero, venta);
 	// String localidad, Double precio, Integer codigo, String calle, Integer
 	// numero,
 	// Integer numero2, Integer piso, String departamento
-	Departamento dpto1 = new Departamento(localidad, precio, codigo, calle, numero, piso, dpto);
-	Departamento dpto3 = new Departamento(localidad2, precio2, codigo2, calle2, numero2, piso2, dpto2);
-	Departamento copiaDpto1 = new Departamento(localidad, precio, codigo, calle, numero, piso, dpto);
+	Departamento dpto1 = new Departamento(localidad, precio, codigo, calle, numero, alquiler, piso, dpto);
+	Departamento dpto3 = new Departamento(localidad2, precio2, codigo2, calle2, numero2, venta, piso2, dpto2);
+	Departamento copiaDpto1 = new Departamento(localidad, precio, codigo, calle, numero, alquiler, piso, dpto);
 
 	@org.junit.Test
 	public void queSePuedaDarDeAltaUnaCasaEnLaInmobiliaria() {
@@ -111,7 +111,7 @@ public class Test {
 		Double resultadoEsperado = 150.000;
 		// Validacion
 		assertEquals(resultadoEsperado, promedio);
-		;
+
 	}
 
 	@org.junit.Test
@@ -160,6 +160,34 @@ public class Test {
 		actual.agregarCasa(casa2);
 
 //	assertEquals(2, actual.getCasas().length);
+	}
+
+	@org.junit.Test
+	public void queLaBusquedaDePropiedadesPorVentaMeArrojeUnaLista() {
+		// Crear una lista de propiedades
+		ArrayList<Propiedad> propiedades = new ArrayList<>();
+
+		actual.agregarPropiedad(casa1);// venta
+		actual.agregarPropiedad(casa2);// alquiler
+		actual.agregarPropiedad(casaCopiaDeLa1);// venta
+
+		propiedades = actual.queLaBusquedaDePropiedadesPorVentaMeArrojeUnaLista();
+
+		Double cantidadDePropiedadesEsperada = 2.0;
+		Double cantidadDePropiedadesTotal = (double) propiedades.size();
+		assertNotNull(propiedades);
+		assertEquals(cantidadDePropiedadesEsperada, cantidadDePropiedadesTotal);
+	}
+
+	public void queLaBusquedaDePropiedadesPorVentaMeArrojeUnaListaNuloSiNoAplicanResultados() {
+		ArrayList<Propiedad> propiedades = new ArrayList<>();
+
+		actual.agregarPropiedad(casa2);
+
+		propiedades = actual.queLaBusquedaDePropiedadesPorVentaMeArrojeUnaLista();
+
+		assertNull(propiedades);
+
 	}
 
 }

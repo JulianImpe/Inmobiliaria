@@ -2,6 +2,7 @@ package ar.edu.unlam.pb1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 
 public class Inmobiliaria {
@@ -9,7 +10,7 @@ public class Inmobiliaria {
 	private String nombre;
 	private final Integer CANTIDAD_DE_PROPIEDADES = 100;
 	private ArrayList<Propiedad> propiedades;
-	private ArrayList<Cliente> clientes;
+	private HashSet<Cliente> clientes;
 	private ArrayList<Casa> casas;
 	private ArrayList<Departamento> departamentos;
 	private ArrayList<PH> phs;
@@ -18,12 +19,13 @@ public class Inmobiliaria {
 	private Double cuenta;
 
 	public Inmobiliaria() {
-		this.clientes = new ArrayList<Cliente>();
+		this.clientes = new HashSet<>();
 		this.casas = new ArrayList<Casa>();
 		this.departamentos = new ArrayList<Departamento>();
 		this.phs = new ArrayList<PH>();
 		this.terrenos = new ArrayList<Terreno>();
 		this.campos = new ArrayList<Campo>();
+		this.propiedades = new ArrayList<>();
 		this.cuenta = (double) 100000;
 		this.nombre = "Julian";
 
@@ -51,13 +53,28 @@ public class Inmobiliaria {
 
 	}
 
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		return super.equals(obj);
+	}
+
 	public Boolean darDeAlta2Casas(Casa casita1, Casa casita2) {
 		Boolean darDeAlta = Boolean.FALSE;
-		if (darDeAlta == Boolean.FALSE) {
+		if (darDeAlta == Boolean.FALSE && !casita1.getLocalidad()
+				.equals(casita2.getLocalidad())
+				&& casita1.getNumero() != casita2.getNumero()) {
 			casas.remove(casita1);
 			casas.remove(casita2);
+			darDeAlta = Boolean.TRUE;
+			return darDeAlta;
 		}
-		darDeAlta = Boolean.TRUE;
 
 		return darDeAlta;
 
@@ -113,18 +130,6 @@ public class Inmobiliaria {
 
 	}
 
-//	public Casa[] buscarCasasPorRangoDePrecio(Double precioMinimo, Double precioMaximo) {
-//		int cantidadDeCasas = 0;
-//		Casa[] casasBuscadas = new Casa[casas.length];
-//		for (int i = 0; i < casas.length; i++) {
-//			if (casas[i] != null && casas[i].getPrecio() >= precioMinimo && casas[i].getPrecio() <= precioMaximo) {
-//				casasBuscadas[cantidadDeCasas] = casas[i];
-//				cantidadDeCasas++;
-//			}
-//		}
-//
-//		return casasBuscadas;
-//	}
 	public ArrayList<Casa> buscarCasasPorRangoDePrecio(Double precioMinimo, Double precioMaximo) {
 		ArrayList<Casa> casasBuscadas = new ArrayList<Casa>();
 
@@ -161,16 +166,15 @@ public class Inmobiliaria {
 		return modificado;
 	}
 
-	public Propiedad[] ordenarPropiedadesPorPrecio(Propiedad[] propiedades) {
+	public ArrayList<Propiedad> ordenarPropiedadesPorPrecio(ArrayList<Propiedad> propiedades) {
 		Propiedad aux = null;
-		for (int i = 0; i < propiedades.length; i++) {
-			for (int j = 0; j < propiedades.length - 1 - i; j++) {
-				if (propiedades[j] != null && propiedades[j + 1] != null) {
-					if (propiedades[j].getPrecio() > propiedades[j + 1].getPrecio()) {
-
-						aux = propiedades[j];
-						propiedades[j] = propiedades[j + 1];
-						propiedades[j + 1] = aux;
+		for (int i = 0; i < propiedades.size(); i++) {
+			for (int j = 0; j < propiedades.size() - 1 - i; j++) {
+				if (propiedades.get(j) != null && propiedades.get(j + 1) != null) {
+					if (propiedades.get(j).getPrecio() > propiedades.get(j + 1).getPrecio()) {
+						aux = propiedades.get(j);
+						propiedades.set(j, propiedades.get(j + 1));
+						propiedades.set(j + 1, aux);
 					}
 				}
 			}
@@ -178,89 +182,91 @@ public class Inmobiliaria {
 		return propiedades;
 	}
 
-//	public Propiedad[] ordenarPropiedadesPorUbicacion(Propiedad[] propiedades) {
-//		Propiedad aux = null;
-//		for (int i = 0; i < propiedades.length; i++) {
-//			for (int j = 0; j < propiedades.length - 1 - i; j++) {
-//				if (propiedades[j] != null && propiedades[j + 1] != null) {
-//					if (propiedades[j].getUbicacion().compareTo(propiedades[j + 1].getUbicacion()) > 0) {
-//
-//						aux = propiedades[j];
-//						propiedades[j] = propiedades[j + 1];
-//						propiedades[j + 1] = aux;
-//					}
-//				}
-//			}
-//		}
-//		return propiedades;
-//	}
-//
-//	public Propiedad buscarPropiedadPorPrecio(Double precio) {
-//		Propiedad propiedadBuscada = null;
-//		for (int i = 0; i < propiedades.length; i++) {
-//			if (propiedades[i] != null && propiedades[i].getPrecio() == precio) {
-//				propiedadBuscada = propiedades[i];
-//				return propiedadBuscada;
-//			}
-//		}
-//
-//		return propiedadBuscada;
-//	}
-//
-//	public Propiedad buscarPropiedadPorUbicacion(String ubicacion) {
-//		Propiedad propiedadBuscada = null;
-//		for (int i = 0; i < propiedades.length; i++) {
-//			if (propiedades[i] != null && propiedades[i].getUbicacion().equals(ubicacion)) {
-//				propiedadBuscada = propiedades[i];
-//				return propiedadBuscada;
-//			}
-//		}
-//
-//		return propiedadBuscada;
-//
-//	}
-//
-//	public Boolean realizarVentaDePropiedad(String ubicacion, Double precio) {
-//		Boolean ventaRealizada = false;
-//		buscarPropiedadPorUbicacion(ubicacion);
-//		for (int i = 0; i < propiedades.length; i++) {
-//			if (propiedades[i] != null) {
-//				precio += this.cuenta;
-//				propiedades[i] = null;
-//
-//				for (int j = 0; j < clientes.length; j++) {
-//					if (clientes[j] != null && clientes[j].getBilletera() >= precio) {
-//						precio -= clientes[j].getBilletera();
-//						return ventaRealizada = Boolean.TRUE;
-//					}
-//				}
-//
-//			}
-//		}
-//		return ventaRealizada;
-//	}
-//
-//	public Boolean realizarAlquilerDePropiedad(String ubicacion, Double precioPorDia, Integer cantidadDias) {
-//		Boolean alquilerRealizado = false;
-//		Double precioTotal = 0.0;
-//		buscarPropiedadPorUbicacion(ubicacion);
-//
-//		for (int i = 0; i < propiedades.length; i++) {
-//			if (propiedades[i] != null) {
-//				precioTotal = precioPorDia * cantidadDias;
-//				precioTotal += this.cuenta;
-//				propiedades[i] = null;
-//
-//				for (int j = 0; j < clientes.length; j++) {
-//					if (clientes[j] != null && clientes[j].getBilletera() >= precioPorDia) {
-//						precioPorDia -= clientes[j].getBilletera();
-//						return alquilerRealizado = Boolean.TRUE;
-//					}
-//				}
-//			}
-//		}
-//		return alquilerRealizado;
-//	}
+	public ArrayList<Propiedad> ordenarPropiedadesPorUbicacion(ArrayList<Propiedad> propiedades) {
+		Propiedad aux = null;
+		for (int i = 0; i < propiedades.size(); i++) {
+			for (int j = 0; j < propiedades.size() - 1 - i; j++) {
+				if (propiedades.get(j) != null && propiedades.get(j + 1) != null) {
+					if (propiedades.get(j).getLocalidad().compareTo(propiedades.get(j + 1).getLocalidad()) > 0) {
+						aux = propiedades.get(j);
+						propiedades.set(j, propiedades.get(j + 1));
+						propiedades.set(j + 1, aux);
+					}
+				}
+			}
+		}
+		return propiedades;
+	}
+
+	public Propiedad buscarPropiedadPorPrecio(ArrayList<Propiedad> propiedades, Double precio) {
+		for (Propiedad propiedad : propiedades) {
+			if (propiedad != null && propiedad.getPrecio().equals(precio)) {
+				return propiedad;
+			}
+		}
+		return null;
+	}
+
+	public Propiedad buscarPropiedadPorUbicacion(ArrayList<Propiedad> propiedades, String ubicacion) {
+		for (Propiedad propiedad : propiedades) {
+			if (propiedad != null && propiedad.getLocalidad().equals(ubicacion)) {
+				return propiedad;
+			}
+		}
+		return null;
+	}
+
+	public Boolean realizarVentaDePropiedad(ArrayList<Propiedad> propiedades, ArrayList<Cliente> clientes,
+			String ubicacion, Double precio) {
+		Boolean ventaRealizada = false;
+		Propiedad propiedad = buscarPropiedadPorUbicacion(propiedades, ubicacion);
+		if (propiedad != null && propiedad.acciones.equals(AccionesParaLasPropiedades.VENTA)) {
+			precio += this.cuenta;
+			propiedades.remove(propiedad);
+
+			for (Cliente cliente : clientes) {
+				if (cliente != null && cliente.getBilletera() >= precio) {
+					cliente.setBilletera(cliente.getBilletera() - precio);
+					ventaRealizada = true;
+					break;
+				}
+			}
+		}
+		return ventaRealizada;
+	}
+
+	public Boolean realizarAlquilerDePropiedad(ArrayList<Propiedad> propiedades, ArrayList<Cliente> clientes,
+			String ubicacion, Double precioPorDia, Integer cantidadDias) {
+		Boolean alquilerRealizado = false;
+		Double precioTotal = 0.0;
+		Propiedad propiedad = buscarPropiedadPorUbicacion(propiedades, ubicacion);
+		if (propiedad != null && propiedad.acciones.equals(AccionesParaLasPropiedades.ALQUILER)) {
+			precioTotal = precioPorDia * cantidadDias;
+			precioTotal += this.cuenta;
+			propiedades.remove(propiedad);
+
+			for (Cliente cliente : clientes) {
+				if (cliente != null && cliente.getBilletera() >= precioTotal) {
+					cliente.setBilletera(cliente.getBilletera() - precioTotal);
+					alquilerRealizado = true;
+					break;
+				}
+			}
+		}
+		return alquilerRealizado;
+	}
+
+	public ArrayList<Propiedad> queLaBusquedaDePropiedadesPorVentaMeArrojeUnaLista() {
+	    ArrayList<Propiedad> propiedadesParaVenta = new ArrayList<>();
+	    for (Propiedad propiedad : propiedades) {
+	        if (propiedad.acciones.equals(AccionesParaLasPropiedades.VENTA)) {
+	            propiedadesParaVenta.add(propiedad); 
+	        }
+	    }
+
+	    return propiedadesParaVenta;
+	}
+
 
 	public String getNombre() {
 		return nombre;
@@ -278,11 +284,11 @@ public class Inmobiliaria {
 		this.propiedades = propiedades;
 	}
 
-	public ArrayList<Cliente> getClientes() {
+	public HashSet<Cliente> getClientes() {
 		return clientes;
 	}
 
-	public void setClientes(ArrayList<Cliente> clientes) {
+	public void setClientes(HashSet<Cliente> clientes) {
 		this.clientes = clientes;
 	}
 
@@ -337,6 +343,5 @@ public class Inmobiliaria {
 	public Integer getCANTIDAD_DE_PROPIEDADES() {
 		return CANTIDAD_DE_PROPIEDADES;
 	}
-
 
 }

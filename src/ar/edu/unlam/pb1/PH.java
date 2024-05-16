@@ -7,9 +7,9 @@ public class PH extends Propiedad {
 	protected Integer dormitorios;
 	protected Integer banios;
 
-	public PH(String localidad, Double precio, Integer codigo, String direccion, Integer metrosCuadrados, Integer piso,
+	public PH(String localidad, Double precio, Integer codigo, String direccion, Integer metrosCuadrados, Integer piso,AccionesParaLasPropiedades acciones,
 			Integer ambientes, Integer dormitorios, Integer banios) {
-		super(localidad, precio, codigo, direccion, metrosCuadrados);
+		super(localidad, precio, codigo, direccion, metrosCuadrados, acciones);
 		this.piso = piso;
 		this.ambientes = ambientes;
 		this.dormitorios = dormitorios;
