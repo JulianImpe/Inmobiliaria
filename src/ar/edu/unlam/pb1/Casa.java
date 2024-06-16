@@ -64,10 +64,12 @@ public class Casa extends Propiedad {
 	public Double getPrecio() {
 		return precio;
 	}
+
 	@Override
 	public String toString() {
-		return "Casa [calle=" + calle + ", numero=" + numero + ", ambientes=" + ambientes + ", dormitorios="
-				+ dormitorios + ", banios=" + banios + "]";
+		return "Casa [localidad=" + localidad + ", precio=" + precio + ", codigo=" + codigo + ", calle=" + calle
+				+ ", numero=" + numero + ", metrosCuadrados=" + metrosCuadrados + ", acciones=" + acciones + "]";
 	}
 
+	
 }

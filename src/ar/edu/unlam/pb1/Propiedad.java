@@ -3,7 +3,7 @@ package ar.edu.unlam.pb1;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Propiedad  {
+public class Propiedad implements Comparable<Propiedad>, TransaccionesConPropiedades {
 
 	protected String localidad;
 	protected Double precio;
@@ -38,6 +38,14 @@ public class Propiedad  {
 		Propiedad other = (Propiedad) obj;
 		return Objects.equals(calle, other.calle) && Objects.equals(codigo, other.codigo)
 				&& Objects.equals(localidad, other.localidad) && Objects.equals(numero, other.numero);
+	}
+
+	public AccionesParaLasPropiedades getAcciones() {
+		return acciones;
+	}
+
+	public void setAcciones(AccionesParaLasPropiedades acciones) {
+		this.acciones = acciones;
 	}
 
 	public Double getPrecio() {
@@ -89,12 +97,25 @@ public class Propiedad  {
 		this.numero = numero;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "Propiedad [localidad=" + localidad + ", precio=" + precio + ", codigo=" + codigo + ", calle=" + calle
-				+ ", numero=" + numero + ", metrosCuadrados=" + metrosCuadrados + "]";
+				+ ", numero=" + numero + ", metrosCuadrados=" + metrosCuadrados + ", acciones=" + acciones + "]";
 	}
 
+	@Override
+	public int compareTo(Propiedad o) {
+		
+		return this.localidad.compareTo(o.getLocalidad());
+	}
+	
+	
+//	public int compareToPrecio(Propiedad o) {
+//		
+//		return this.precio.compareTo(o.getPrecio());
+//	}
 
 
 }

@@ -7,16 +7,13 @@ public class Cliente {
 	private Integer Dni;
 	private String nombre;
 	private Double billetera;
-
-//	No puedo tener clientes duplicados
-//	Diseñar un algoritmo, tenemos que modificarlo para cumplir 2 condiciones
-//	Array: Utilice la menor cantidad de memoria posible(No ponerle cantidad)
-//	2da: No tiene que tener limite (hardware)
+	private Propiedad propiedad;
 	
 	
-	public Cliente(Integer dni, String nombre) {
+	public Cliente(Integer dni, String nombre, Propiedad propiedad) {
 		Dni = dni;
 		this.nombre = nombre;
+		this.propiedad = propiedad;
 		this.billetera=(double) 1000000;
 	}
 
@@ -60,6 +57,14 @@ public class Cliente {
 
 	public void setBilletera(Double billetera) {
 		this.billetera = billetera;
+	}
+
+	public Propiedad getPropiedad() {
+		return propiedad;
+	}
+
+	public void setPropiedad(Propiedad propiedad) {
+		this.propiedad = propiedad;
 	}
 
 	@Override

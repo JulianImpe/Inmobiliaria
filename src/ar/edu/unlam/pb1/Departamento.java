@@ -74,10 +74,13 @@ public class Departamento extends Propiedad {
 		this.banios = banios;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Departamento [numero=" + numero + ", piso=" + piso + ", departamento=" + departamento + ", ambientes="
-				+ ambientes + ", dormitorios=" + dormitorios + ", banios=" + banios + "]";
+		return "Departamento [localidad=" + localidad + ", precio=" + precio + ", codigo=" + codigo + ", calle=" + calle
+				+ ", numero=" + numero + ", metrosCuadrados=" + metrosCuadrados + ", acciones=" + acciones + "]";
 	}
+
+	
 
 }
