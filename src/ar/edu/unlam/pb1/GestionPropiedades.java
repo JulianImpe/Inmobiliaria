@@ -10,8 +10,6 @@ public interface GestionPropiedades {
 	ArrayList<Propiedad> buscarPropiedadesPorRangoDePrecio(Double precioMinimo, Double precioMaximo)
 			throws SinResultadosException;
 
-	ArrayList<Propiedad> buscarPropiedadesPorUbicacion(String ubicacion);
-
 	ArrayList<Propiedad> ordenarPropiedadesPorPrecio(ArrayList<Propiedad> propiedades);
 
 	ArrayList<Propiedad> ordenarPropiedadesPorUbicacion(ArrayList<Propiedad> propiedades);
@@ -19,4 +17,8 @@ public interface GestionPropiedades {
 	Double obtenerValorPromedioDeLasCasas();
 
 	Double obtenerValorPromedioDeLosDptos();
+
+	ArrayList<Propiedad> buscarPropiedadesPorUbicacionYDevolverElResultadoOrdenado(String ubicacion);
+
+	
 }

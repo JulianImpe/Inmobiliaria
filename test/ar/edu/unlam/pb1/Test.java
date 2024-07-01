@@ -14,7 +14,7 @@ public class Test {
 
 	String calle = "RamonFalcon";
 	Integer numero = 144;
-	String localidad = "SanJusturro";
+	String localidad = "SanJusto";
 	Integer codigo = 120;
 	String calle2 = "Arieta";
 	Integer numero2 = 584;
@@ -46,8 +46,8 @@ public class Test {
 	public void queSePuedaDarDeAltaUnaCasaEnLaInmobiliaria() {
 
 		// Ejecucion
-		actual.agregarPropiedad(casa1);
-		Boolean deAlta = actual.darDeAltaPropiedad(casa1);
+		Boolean deAlta = actual.agregarPropiedad(casa1);
+
 		// Validacion
 		assertTrue(deAlta);
 
@@ -56,33 +56,33 @@ public class Test {
 	@org.junit.Test
 	public void queSePuedanDarDeAltaDosCasasEnLaInmobiliaria() {
 		// Ejecucion
-		actual.agregarPropiedad(casa1);
-		actual.agregarPropiedad(casa2);
-		Boolean deAlta = actual.darDeAlta2Propiedades(casa2, casa1);
+		Boolean DeAltaCasa1 = actual.agregarPropiedad(casa1);
+		Boolean DeAltaCasa2 = actual.agregarPropiedad(casa2);
 
 		// Validacion
-		assertTrue(deAlta);
+		assertTrue(DeAltaCasa1);
+		assertTrue(DeAltaCasa2);
 
 	}
 
 	@org.junit.Test
 	public void queNoSePuedanDarDeAltaDosCasasConUnaMismaDireccion() {
 		// Ejecucion
-		actual.agregarPropiedad(casa1);
-		actual.agregarPropiedad(casaCopiaDeLa1);
-		Boolean deAlta = actual.darDeAlta2Propiedades(casaCopiaDeLa1, casa1);
+		Boolean DeAltaCasa1 = actual.agregarPropiedad(casa1);
+		Boolean DeAltaCasa2 = actual.agregarPropiedad(casaCopiaDeLa1);
 
 		// Validacion
 
-		assertFalse(deAlta);
+		assertTrue(DeAltaCasa1);
+		assertFalse(DeAltaCasa2);
 
 	}
 
 	@org.junit.Test
 	public void queSePuedaDarDeAltaUnDepartamentoEnLaInmobiliaria() {
 		// Ejecucion
-		actual.agregarPropiedad(dpto1);
-		Boolean deAlta = actual.darDeAltaPropiedad(dpto1);
+		Boolean deAlta = actual.agregarPropiedad(dpto1);
+
 		// Validacion
 		assertTrue(deAlta);
 	}
@@ -90,21 +90,24 @@ public class Test {
 	@org.junit.Test
 	public void queSePuedaDarDeAltaDosDepartamentoEnLaInmobiliaria() {
 		// Ejecucion
-		actual.agregarPropiedad(dpto1);
-		actual.agregarPropiedad(dpto3);
-		Boolean deAlta = actual.darDeAlta2Dptos(dpto1, dpto3);
+		Boolean deAlta1 = actual.agregarPropiedad(dpto1);
+		Boolean deAlta2 = actual.agregarPropiedad(dpto3);
+
 		// Validacion
-		assertTrue(deAlta);
+		assertTrue(deAlta1);
+		assertTrue(deAlta2);
 	}
 
 	@org.junit.Test
-	public void queNoSePuedaDarDeAltaDosDepartamentoEnLaInmobiliaria() {
+	public void queNoSePuedanDarDeAltaDosDepartamentoConUnaMismaDireccion() {
+		// (Calle, número, piso, departamento y localidad) {
 		// Ejecucion
-		actual.agregarPropiedad(dpto1);
-		actual.agregarPropiedad(copiaDpto1);
-		Boolean deAlta = actual.darDeAlta2Dptos(dpto1, copiaDpto1);
+		Boolean deAlta1 = actual.agregarPropiedad(dpto1);
+		Boolean deAlta2 = actual.agregarPropiedad(copiaDpto1);
+
 		// Validacion
-		assertFalse(deAlta);
+		assertTrue(deAlta1);
+		assertFalse(deAlta2);
 	}
 
 	@org.junit.Test
@@ -131,42 +134,11 @@ public class Test {
 
 	}
 
-//	@org.junit.Test
-//	public void queLaBusquedaPorRangoDePrecioDeCasasMeArrojeUnArrayNoNuloSiAplicanResultados()
-//			 {
-//		// Ejecucion
-//		actual.agregarPropiedad(casa1);
-//		actual.agregarPropiedad(casa2);
-//		Double precioMinimo = 90.000;
-//		Double precioMaximo = 200.000;
-//		ArrayList<Propiedad> casitas = actual.buscarPropiedadesPorRangoDePrecio(precioMinimo, precioMaximo);
-//		assertNotNull(casitas);
-//		// La cantidad de casas que espero / La cantidad de casas que puede haber.
-//		assertEquals(2, casitas.size());
-//	}
-//
-//	@org.junit.Test
-//	public void queLaBusquedaPorRangoDePrecioDeCasasMeArrojeUnArrayNuloSiNoAplicanResultados()
-//			 {
-//		// Ejecucion
-//		actual.agregarPropiedad(casa1);
-//		actual.agregarPropiedad(casa2);
-//		Double precioMinimo = 60.000;
-//		Double precioMaximo = 90.000;
-//		ArrayList<Propiedad> casitas = actual.buscarPropiedadesPorRangoDePrecio(precioMinimo, precioMaximo);
-//
-//		assertEquals(0, casitas.size());
-//		// La cantidad de casas que espero / La cantidad de casas que puede haber.
-//		// assertEquals(0, casitas.length);
-//
-//	}
-
 	@org.junit.Test
 	public void agregarUnaCasaConElMenorEspacioEnMemoriaPosibleSinLimiteEnElArray() {
 		actual.agregarPropiedad(casa1);
 		actual.agregarPropiedad(casa2);
 
-//	assertEquals(2, actual.getCasas().length);
 	}
 
 	@org.junit.Test
@@ -176,10 +148,10 @@ public class Test {
 		Double precioU = 10000000.0;
 		Propiedad casa1 = new Casa(localidad, precioU, codigo, calle, numero, venta);
 		Propiedad casa2 = new Casa(localidad, precioU, codigo, calle, numero, alquiler);
-		Propiedad casaCopiaDeLa1 = new Casa(localidad, precioU, codigo, calle, numero, venta);
+		Propiedad casa3 = new Casa("Moron", precioU, 3, "Varela", 2000, venta);
 		actual.agregarPropiedad(casa1);// venta
 		actual.agregarPropiedad(casa2);// alquiler
-		actual.agregarPropiedad(casaCopiaDeLa1);// venta
+		actual.agregarPropiedad(casa3);// venta
 
 		propiedades = actual.queLaBusquedaDePropiedadesPorVentaMeArrojeUnaLista();
 
@@ -225,10 +197,10 @@ public class Test {
 	public void queSePuedaRealizarLaVentaDeUnaPropiedad() {
 		Cliente cliente2 = new Cliente(42587166, "Juliano", casa1);
 		actual.agregarPropiedad(casa1);
-		actual.agregarPropiedad(casa2);
+		actual.agregarCliente(cliente2);
 		Boolean realizada = actual.realizarVentaDePropiedad(casa1, cliente2);
-		Double valorEsperado = 1.0;
-		Double valorObtenido = (double) actual.getPropiedades().size();
+		Integer valorEsperado = 1;
+		Integer valorObtenido = actual.getPropiedades().size();
 		assertEquals(valorEsperado, valorObtenido);
 		assertTrue(realizada);
 
@@ -237,23 +209,23 @@ public class Test {
 	@org.junit.Test
 	public void queSePuedaRealizarElAlquilerDeUnaPropiedad() {
 		Cliente cliente2 = new Cliente(42587166, "Juliano", casa1);
-		actual.agregarPropiedad(casaCopiaDeLa2);
 		actual.agregarPropiedad(casa2);
+		actual.agregarCliente(cliente2);
 		Double precioPorDia = 7000.0;
 		Integer cantidadDeDias = 7;
 		Boolean realizada = actual.realizarAlquilerDePropiedad(casa2, cliente2, precioPorDia, cantidadDeDias);
-		Double valorEsperado = 1.0;
-		Double valorObtenido = (double) actual.getPropiedades().size();
-		assertEquals(valorEsperado, valorObtenido);
+		Propiedad propiedadAlquilada = actual.buscarPropiedadPorCodigo(codigo2);
 		assertTrue(realizada);
+		assertFalse(propiedadAlquilada.getDisponible());
 
 	}
 
 	@org.junit.Test
 	public void queSePuedaRealizarLaPermutaDeDosPropiedades() {
-
 		Cliente cliente1 = new Cliente(42587166, "Julian", dptoPermuta);
 		Cliente cliente2 = new Cliente(52587136, "Pepito", dptoPermuta2);
+		actual.agregarCliente(cliente1);
+		actual.agregarCliente(cliente2);
 		Boolean realizada = actual.realizarPermutaDe2Propiedades(cliente1, cliente2);
 		assertTrue(realizada);
 
@@ -276,14 +248,19 @@ public class Test {
 
 	@org.junit.Test
 	public void queSePuedaRealizarLaBusquedaDeCasasPorUbicacionYElResultadoEsteOrdenadoPorUbicacion() {
-
+		// localidad, precio, codigo, calle, numero, venta
+		Propiedad casa3 = new Casa("Moron", 10000.0, 3, "Varela", 2000, venta);
 		// Ejecucion
 		actual.agregarPropiedad(casa1);
+		actual.agregarPropiedad(casa3);
 		actual.agregarPropiedad(casa2);
-		String localidad = this.localidad;
-		ArrayList<Propiedad> casitas = actual.buscarPropiedadesPorUbicacion(localidad);
-		actual.ordenarPropiedadesPorUbicacion(casitas);
-		assertEquals(1, casitas.size());
+		String localidad = "Moron";
+		String arieta = "Arieta";
+		String varela = "Varela";
+		ArrayList<Propiedad> casitas = actual.buscarPropiedadesPorUbicacionYDevolverElResultadoOrdenado(localidad);
+		assertEquals(2, casitas.size());
+		assertEquals(casitas.get(1).getCalle(), varela);
+		assertEquals(casitas.get(0).getCalle(), arieta);
 
 	}
 
@@ -292,14 +269,18 @@ public class Test {
 			throws SinResultadosException {
 
 		// Ejecucion
-		actual.agregarPropiedad(dpto1);
-		actual.agregarPropiedad(dpto3);
+		Propiedad dpto2 = new Departamento("Moron", 150.000, 3, "Varela", 2000, venta, codigo, calle);
+		actual.agregarPropiedad(dpto3);// [0] - 200.000
+		actual.agregarPropiedad(dpto1);// [1] - 100.000
+		actual.agregarPropiedad(dpto2);// [2] - 150.000
+
 		Double precioMinimo = 90.000;
 		Double precioMaximo = 200.000;
 		ArrayList<Propiedad> dptos = actual.buscarPropiedadesPorRangoDePrecio(precioMinimo, precioMaximo);
-		actual.ordenarPropiedadesPorPrecio(dptos);
-		assertEquals(2, dptos.size());
-		assertTrue(dptos.get(0).getPrecio() <= dptos.get(1).getPrecio());
+		assertEquals(3, dptos.size());
+		assertEquals(dptos.get(0).getPrecio(), dpto1.getPrecio());
+		assertEquals(dptos.get(1).getPrecio(), dpto2.getPrecio());
+		assertEquals(dptos.get(2).getPrecio(), dpto3.getPrecio());
 	}
 
 	@org.junit.Test
@@ -309,8 +290,8 @@ public class Test {
 		actual.agregarPropiedad(dpto1);
 		actual.agregarPropiedad(dpto3);
 		String localidad = this.localidad;
-		ArrayList<Propiedad> dptos = actual.buscarPropiedadesPorUbicacion(localidad);
-		actual.ordenarPropiedadesPorUbicacion(dptos);
+		ArrayList<Propiedad> dptos = actual.buscarPropiedadesPorUbicacionYDevolverElResultadoOrdenado(localidad);
+
 		assertEquals(1, dptos.size());
 
 	}
@@ -335,8 +316,8 @@ public class Test {
 		actual.agregarPropiedad(dpto1);
 		actual.agregarPropiedad(dpto3);
 		String localidad = this.localidad;
-		ArrayList<Propiedad> dptos = actual.buscarPropiedadesPorUbicacion(localidad);
-		actual.ordenarPropiedadesPorUbicacion(dptos);
+		ArrayList<Propiedad> dptos = actual.buscarPropiedadesPorUbicacionYDevolverElResultadoOrdenado(localidad);
+
 		assertEquals(1, dptos.size());
 
 	}

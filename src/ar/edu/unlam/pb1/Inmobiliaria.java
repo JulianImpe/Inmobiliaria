@@ -4,26 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import org.hamcrest.core.IsInstanceOf;
+
 public class Inmobiliaria implements GestionPropiedades {
 
 	private String nombre;
 	private final Integer CANTIDAD_DE_PROPIEDADES = 100;
 	private ArrayList<Propiedad> propiedades;
 	private HashSet<Cliente> clientes;
-	private ArrayList<Casa> casas;
-	private ArrayList<Departamento> departamentos;
-	private ArrayList<PH> phs;
-	private ArrayList<Terreno> terrenos;
-	private ArrayList<Campo> campos;
 	private Double cuenta;
 
 	public Inmobiliaria() {
 		this.clientes = new HashSet<>();
-		this.casas = new ArrayList<Casa>();
-		this.departamentos = new ArrayList<Departamento>();
-		this.phs = new ArrayList<PH>();
-		this.terrenos = new ArrayList<Terreno>();
-		this.campos = new ArrayList<Campo>();
 		this.propiedades = new ArrayList<>();
 		this.cuenta = (double) 100000;
 		this.nombre = "Julian";
@@ -31,14 +23,6 @@ public class Inmobiliaria implements GestionPropiedades {
 
 	public Boolean agregarCliente(Cliente nuevo) {
 		return this.clientes.add(nuevo);
-	}
-
-	public Boolean agregarCasa(Casa nueva) {
-		return this.casas.add(nueva);
-	}
-
-	public Boolean agregarDepartamento(Departamento nuevo) {
-		return departamentos.add(nuevo);
 	}
 
 	public Boolean darDeAltaPropiedad(Propiedad casita) {
@@ -53,32 +37,6 @@ public class Inmobiliaria implements GestionPropiedades {
 	@Override
 	public boolean equals(Object obj) {
 		return super.equals(obj);
-	}
-
-	public Boolean darDeAlta2Propiedades(Propiedad casita1, Propiedad casita2) {
-		Boolean darDeAlta = Boolean.FALSE;
-		if (darDeAlta == Boolean.FALSE && !casita1.getLocalidad().equals(casita2.getLocalidad())
-				&& casita1.getNumero() != casita2.getNumero()) {
-			propiedades.remove(casita1);
-			propiedades.remove(casita2);
-			darDeAlta = Boolean.TRUE;
-			return darDeAlta;
-		}
-		return darDeAlta;
-	}
-
-	public Boolean darDeAlta2Dptos(Propiedad dpto1, Propiedad dpto2) {
-		Boolean dadaDeAlta = false;
-		if (dpto1 != null && dpto2 != null
-				&& !(dpto1.getCalle().equals(dpto2.getCalle()) && dpto1.getLocalidad().equals(dpto2.getLocalidad())
-						&& dpto1.getNumero().equals(dpto2.getNumero())
-						&& ((Departamento) dpto1).getPiso().equals(((Departamento) dpto2).getPiso())
-						&& ((Departamento) dpto1).getDepartamento().equals(((Departamento) dpto2).getDepartamento()))) {
-			dpto1 = null;
-			dpto2 = null;
-			return dadaDeAlta = Boolean.TRUE;
-		}
-		return dadaDeAlta;
 	}
 
 	@Override
@@ -121,11 +79,29 @@ public class Inmobiliaria implements GestionPropiedades {
 		if (casasBuscadas.isEmpty()) {
 			throw new SinResultadosException("No se encuentra ninguna propiedad");
 		}
-		return casasBuscadas;
+		return ordenarPropiedadesPorPrecio(casasBuscadas);
 	}
 
 	@Override
 	public Boolean agregarPropiedad(Propiedad nueva) {
+		for (Propiedad i : this.propiedades) {
+			if (nueva instanceof Casa) {
+				if (i.getCalle().equals(nueva.getCalle()) && i.getNumero().equals(nueva.getNumero())
+						&& i.getLocalidad().equals(nueva.getLocalidad())) {
+					return false;
+				}
+
+			}
+			// (Calle, número, piso, departamento y localidad)
+			if (nueva instanceof Departamento) {
+				if (i.getCalle().equals(nueva.getCalle()) && i.getNumero().equals(nueva.getNumero())
+						&& i.getLocalidad().equals(nueva.getLocalidad())
+						&& ((Departamento) i).getPiso().equals(((Departamento) nueva).getPiso())
+						&& ((Departamento) i).getDepartamento().equals(((Departamento) nueva).getDepartamento())) {
+					return false;
+				}
+			}
+		}
 		return this.propiedades.add(nueva);
 	}
 
@@ -149,31 +125,46 @@ public class Inmobiliaria implements GestionPropiedades {
 
 	@Override
 	public ArrayList<Propiedad> ordenarPropiedadesPorUbicacion(ArrayList<Propiedad> propiedades) {
-		Collections.sort(propiedades);
+		Collections.sort(propiedades, new ComparadorDeUbicacion());
 		return propiedades;
 	}
 
 	@Override
-	public ArrayList<Propiedad> buscarPropiedadesPorUbicacion(String ubicacion) {
+	public ArrayList<Propiedad> buscarPropiedadesPorUbicacionYDevolverElResultadoOrdenado(String localidad) {
 		ArrayList<Propiedad> propiedadesBuscadas = new ArrayList<Propiedad>();
 		for (Propiedad i : this.propiedades) {
-			if (i.getLocalidad().equals(ubicacion)) {
+			if (i.getLocalidad().equals(localidad)) {
 				propiedadesBuscadas.add(i);
 			}
 		}
-		return propiedadesBuscadas;
+		return ordenarPropiedadesPorUbicacion(propiedadesBuscadas);
 	}
 
 	// Métodos adicionales de la clase Inmobiliaria...
 
+	public Propiedad buscarPropiedadPorCodigo(Integer codigo) {
+		for (Propiedad p : propiedades) {
+			if (p.getCodigo().equals(codigo)) {
+				return p;
+			}
+		}
+		return null;
+
+	}
+
 	public Boolean realizarVentaDePropiedad(Propiedad propiedad, Cliente cliente) {
 		Boolean ventaRealizada = false;
-		if (propiedad != null && propiedad.acciones.equals(AccionesParaLasPropiedades.VENTA)) {
-			propiedad.setPrecio(propiedad.getPrecio() + this.cuenta);
-			propiedades.remove(propiedad);
+		Propiedad propi = buscarPropiedadPorCodigo(propiedad.getCodigo());
+		Cliente c = buscarClientePorId(cliente.getDni());
+		if (propi == null || c == null) {
+			return false;
+		}
+		if (propi.getDisponible() == Boolean.TRUE && propi.acciones.equals(AccionesParaLasPropiedades.VENTA)) {
+			propi.setPrecio(propi.getPrecio() + this.cuenta);
+			propi.setDisponible(Boolean.FALSE);
 
-			if (cliente != null && cliente.getBilletera() >= propiedad.getPrecio()) {
-				cliente.setBilletera(cliente.getBilletera() - propiedad.getPrecio());
+			if (c.getBilletera() >= propi.getPrecio()) {
+				c.setBilletera(c.getBilletera() - propi.getPrecio());
 				ventaRealizada = true;
 			}
 		}
@@ -182,63 +173,85 @@ public class Inmobiliaria implements GestionPropiedades {
 
 	public Boolean realizarAlquilerDePropiedad(Propiedad propiedad, Cliente cliente, Double precioPorDia,
 			Integer cantidadDias) {
-		Boolean alquilerRealizado = false;
+		Boolean alquilerRealizado = Boolean.FALSE;
 		Double precioTotal = 0.0;
-		if (propiedad != null && propiedad.acciones.equals(AccionesParaLasPropiedades.ALQUILER)) {
-			precioTotal = precioPorDia * cantidadDias;
-			precioTotal += this.cuenta;
-			propiedades.remove(propiedad);
+		for (Propiedad p : propiedades) {
+			if (p.equals(propiedad) && p.getDisponible() == Boolean.TRUE
+					&& p.acciones.equals(AccionesParaLasPropiedades.ALQUILER)) {
+				precioTotal = precioPorDia * cantidadDias;
+				precioTotal += this.cuenta;
+				p.setDisponible(Boolean.FALSE);
 
-			if (cliente != null && cliente.getBilletera() >= precioTotal) {
-				cliente.setBilletera(cliente.getBilletera() - precioTotal);
-				alquilerRealizado = true;
+				if (cliente != null && cliente.getBilletera() >= precioTotal) {
+					cliente.setBilletera(cliente.getBilletera() - precioTotal);
+					alquilerRealizado = Boolean.TRUE;
+				}
 			}
 		}
+
 		return alquilerRealizado;
+	}
+
+	public Cliente buscarClientePorId(Integer dni) {
+		for (Cliente c : clientes) {
+			if (c.getDni().equals(dni)) {
+				return c;
+			}
+		}
+		return null;
+
 	}
 
 	public Boolean realizarPermutaDe2Propiedades(Cliente cliente, Cliente cliente2) {
 		Boolean permutaRealizada = Boolean.FALSE;
 		Double diferenciaDePrecioEnLasPropiedades = 0.0;
-		if (cliente.getPropiedad().acciones.equals(AccionesParaLasPropiedades.PERMUTA)
-				&& cliente2.getPropiedad().acciones.equals(AccionesParaLasPropiedades.PERMUTA)) {
-			Propiedad tempPropiedad = cliente.getPropiedad();
-			cliente.setPropiedad(cliente2.getPropiedad());
-			cliente2.setPropiedad(tempPropiedad);
+		Cliente c1 = buscarClientePorId(cliente.getDni());
+		Cliente c2 = buscarClientePorId(cliente2.getDni());
+		if (c1 == null || c2 == null) {
+			return false;
+		}
+		if (c1.getPropiedad().acciones.equals(AccionesParaLasPropiedades.PERMUTA)
+				&& c2.getPropiedad().acciones.equals(AccionesParaLasPropiedades.PERMUTA)) {
+			Propiedad tempPropiedad = c1.getPropiedad();
+			c1.setPropiedad(c2.getPropiedad());
+			c2.setPropiedad(tempPropiedad);
 			permutaRealizada = Boolean.TRUE;
 
-			double precioPropiedadCliente1 = cliente.getPropiedad().getPrecio();
-			double precioPropiedadCliente2 = cliente2.getPropiedad().getPrecio();
+			Double precioPropiedadCliente1 = c1.getPropiedad().getPrecio();
+			Double precioPropiedadCliente2 = c2.getPropiedad().getPrecio();
 
 			if (precioPropiedadCliente2 > precioPropiedadCliente1) {
+
 				diferenciaDePrecioEnLasPropiedades = precioPropiedadCliente2 - precioPropiedadCliente1;
-				cliente.setBilletera(cliente.getBilletera() - diferenciaDePrecioEnLasPropiedades);
-				cliente2.setBilletera(cliente2.getBilletera() + diferenciaDePrecioEnLasPropiedades);
+				c1.setBilletera(c1.getBilletera() - diferenciaDePrecioEnLasPropiedades);
+				c2.setBilletera(c2.getBilletera() + diferenciaDePrecioEnLasPropiedades);
+
 			} else if (precioPropiedadCliente1 > precioPropiedadCliente2) {
+
 				diferenciaDePrecioEnLasPropiedades = precioPropiedadCliente1 - precioPropiedadCliente2;
-				cliente.setBilletera(cliente.getBilletera() + diferenciaDePrecioEnLasPropiedades);
-				cliente2.setBilletera(cliente2.getBilletera() - diferenciaDePrecioEnLasPropiedades);
+				c1.setBilletera(c1.getBilletera() + diferenciaDePrecioEnLasPropiedades);
+				c2.setBilletera(c2.getBilletera() - diferenciaDePrecioEnLasPropiedades);
 			}
 		}
 		return permutaRealizada;
 	}
 
 	public ArrayList<Propiedad> queLaBusquedaDePropiedadesPorVentaMeArrojeUnaLista()
-	        throws UmbralMinimoNoAlcanzadoException {
-	    ArrayList<Propiedad> propiedadesParaVenta = new ArrayList<>();
-	    for (Propiedad propiedad : propiedades) {
-	        if (propiedad.getAcciones().equals(AccionesParaLasPropiedades.VENTA) && propiedad.getPrecio() > 10000.0) {
-	            propiedadesParaVenta.add(propiedad);
-	        }
-	    }
-	    
-	    if (propiedadesParaVenta.isEmpty()) {
-	        throw new UmbralMinimoNoAlcanzadoException("No se encontraron propiedades que cumplan con el umbral mínimo");
-	    }
+			throws UmbralMinimoNoAlcanzadoException {
+		ArrayList<Propiedad> propiedadesParaVenta = new ArrayList<>();
+		for (Propiedad propiedad : propiedades) {
+			if (propiedad.getAcciones().equals(AccionesParaLasPropiedades.VENTA) && propiedad.getPrecio() > 10000.0) {
+				propiedadesParaVenta.add(propiedad);
+			}
+		}
 
-	    return propiedadesParaVenta;
+		if (propiedadesParaVenta.isEmpty()) {
+			throw new UmbralMinimoNoAlcanzadoException(
+					"No se encontraron propiedades que cumplan con el umbral mínimo");
+		}
+
+		return propiedadesParaVenta;
 	}
-
 
 	// Getters y Setters...
 
@@ -264,46 +277,6 @@ public class Inmobiliaria implements GestionPropiedades {
 
 	public void setClientes(HashSet<Cliente> clientes) {
 		this.clientes = clientes;
-	}
-
-	public ArrayList<Casa> getCasas() {
-		return casas;
-	}
-
-	public void setCasas(ArrayList<Casa> casas) {
-		this.casas = casas;
-	}
-
-	public ArrayList<Departamento> getDepartamentos() {
-		return departamentos;
-	}
-
-	public void setDepartamentos(ArrayList<Departamento> departamentos) {
-		this.departamentos = departamentos;
-	}
-
-	public ArrayList<PH> getPhs() {
-		return phs;
-	}
-
-	public void setPhs(ArrayList<PH> phs) {
-		this.phs = phs;
-	}
-
-	public ArrayList<Terreno> getTerrenos() {
-		return terrenos;
-	}
-
-	public void setTerrenos(ArrayList<Terreno> terrenos) {
-		this.terrenos = terrenos;
-	}
-
-	public ArrayList<Campo> getCampos() {
-		return campos;
-	}
-
-	public void setCampos(ArrayList<Campo> campos) {
-		this.campos = campos;
 	}
 
 	public Double getCuenta() {

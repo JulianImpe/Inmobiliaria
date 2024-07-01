@@ -3,7 +3,7 @@ package ar.edu.unlam.pb1;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Propiedad implements Comparable<Propiedad>, TransaccionesConPropiedades {
+public class Propiedad {
 
 	protected String localidad;
 	protected Double precio;
@@ -12,7 +12,9 @@ public class Propiedad implements Comparable<Propiedad>, TransaccionesConPropied
 	protected Integer numero;
 	protected Integer metrosCuadrados;
 	protected AccionesParaLasPropiedades acciones;
-
+	protected String ubicacion;
+	protected Boolean disponible;
+	
 	public Propiedad(String localidad, Double precio, Integer codigo, String calle, Integer numero,AccionesParaLasPropiedades acciones) {
 		this.localidad = localidad;
 		this.precio = precio;
@@ -20,7 +22,11 @@ public class Propiedad implements Comparable<Propiedad>, TransaccionesConPropied
 		this.calle = calle;
 		this.numero = numero;
 		this.acciones=acciones;
+		this.ubicacion = localidad + calle;
+		this.disponible = Boolean.TRUE;
 	}
+
+	
 
 	@Override
 	public int hashCode() {
@@ -39,6 +45,18 @@ public class Propiedad implements Comparable<Propiedad>, TransaccionesConPropied
 		return Objects.equals(calle, other.calle) && Objects.equals(codigo, other.codigo)
 				&& Objects.equals(localidad, other.localidad) && Objects.equals(numero, other.numero);
 	}
+
+	public Boolean getDisponible() {
+		return disponible;
+	}
+
+
+
+	public void setDisponible(Boolean disponible) {
+		this.disponible = disponible;
+	}
+
+
 
 	public AccionesParaLasPropiedades getAcciones() {
 		return acciones;
@@ -97,7 +115,13 @@ public class Propiedad implements Comparable<Propiedad>, TransaccionesConPropied
 		this.numero = numero;
 	}
 
-	
+	public String getUbicacion() {
+		return ubicacion;
+	}
+
+	public void setUbicacion(String ubicacion) {
+		this.ubicacion = ubicacion;
+	}
 
 	@Override
 	public String toString() {
@@ -105,17 +129,8 @@ public class Propiedad implements Comparable<Propiedad>, TransaccionesConPropied
 				+ ", numero=" + numero + ", metrosCuadrados=" + metrosCuadrados + ", acciones=" + acciones + "]";
 	}
 
-	@Override
-	public int compareTo(Propiedad o) {
-		
-		return this.localidad.compareTo(o.getLocalidad());
-	}
+
 	
-	
-//	public int compareToPrecio(Propiedad o) {
-//		
-//		return this.precio.compareTo(o.getPrecio());
-//	}
 
 
 }

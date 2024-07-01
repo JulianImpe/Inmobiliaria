@@ -4,14 +4,14 @@ import java.util.Objects;
 
 public class Cliente {
 
-	private Integer Dni;
+	private Integer dni;
 	private String nombre;
 	private Double billetera;
 	private Propiedad propiedad;
 	
 	
 	public Cliente(Integer dni, String nombre, Propiedad propiedad) {
-		Dni = dni;
+		this.dni = dni;
 		this.nombre = nombre;
 		this.propiedad = propiedad;
 		this.billetera=(double) 1000000;
@@ -19,7 +19,7 @@ public class Cliente {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Dni);
+		return Objects.hash(dni);
 	}
 
 	@Override
@@ -31,15 +31,15 @@ public class Cliente {
 		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
-		return Objects.equals(Dni, other.Dni);
+		return Objects.equals(dni, other.dni);
 	}
 
 	public Integer getDni() {
-		return Dni;
+		return dni;
 	}
 
 	public void setDni(Integer dni) {
-		Dni = dni;
+		this.dni = dni;
 	}
 
 	public String getNombre() {
@@ -69,7 +69,7 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [Dni=" + Dni + ", nombre=" + nombre + ", clientela=" + "]";
+		return "Cliente [Dni=" + dni + ", nombre=" + nombre + ", clientela=" + "]";
 	}
 
 
